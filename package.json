@@ -20,6 +20,7 @@
 		"db:studio": "drizzle-kit studio"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.6.6",
 		"@neondatabase/serverless": "^1.2.0",
 		"@sveltejs/adapter-auto": "^8.0.0",
 		"@sveltejs/kit": "^3.1.1",
