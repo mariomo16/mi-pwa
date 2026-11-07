@@ -19,6 +19,10 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"
   },
+  "dependencies": {
+    "@neon/config": "^1.12.1",
+    "@neon/env": "^2.0.1"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",
     "@neondatabase/serverless": "^1.2.0",
