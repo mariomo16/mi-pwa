@@ -1,12 +1,13 @@
 {
-  "name": "mi-pwa",
-  "version": "0.0.1",
+  "name": "core",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "imports": {
-    "#lib": "./src/lib/index.js",
+    "#lib": "./src/lib/index.ts",
     "#lib/*": "./src/lib/*"
   },
+  "packageManager": "pnpm@11.28.10",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -14,29 +15,42 @@
     "prepare": "svelte-kit sync || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "icons": "node scripts/generate-icons.mjs",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
     "@neon/config": "^1.12.1",
-    "@neon/env": "^2.0.1"
+    "@neon/env": "^2.0.1",
+    "@neondatabase/serverless": "^1.2.0",
+    "dexie": "^4.4.7",
+    "drizzle-orm": "^0.45.4",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",
-    "@neondatabase/serverless": "^1.2.0",
-    "@sveltejs/adapter-auto": "^8.0.0",
+    "@sveltejs/adapter-vercel": "^7.0.2",
     "@sveltejs/kit": "^3.1.1",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@tailwindcss/vite": "^4.3.5",
     "@types/node": "^24.19.2",
     "drizzle-kit": "^0.31.11",
-    "drizzle-orm": "^0.45.4",
+    "fake-indexeddb": "^6.2.7",
+    "sharp": "^0.35.5",
     "svelte": "^5.57.3",
     "svelte-check": "^4.7.8",
     "tailwindcss": "^4.3.5",
     "typescript": "^6.0.3",
-    "vite": "^8.3.6"
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
   }
 }
