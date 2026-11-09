@@ -314,7 +314,7 @@ function handleBackdrop(event: MouseEvent): void {
           <label class="mt-4 flex items-start gap-2 text-xs text-muted">
             <input
               type="checkbox"
-              class="mt-0.5 size-3.5 shrink-0 accent-[var(--accent)]"
+              class="mt-0.5 size-3.5 shrink-0 accent-accent"
               bind:checked={restoreIdentity}
             />
             <span>

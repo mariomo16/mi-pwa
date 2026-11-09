@@ -80,7 +80,7 @@ const location = $derived(profileState.data.location.trim());
 
   <div class="mt-6 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
     <article
-      class="relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-card border border-gymbro/40 bg-gymbro p-6 text-gymbro-ink transition-transform duration-200 hover:-translate-y-1 sm:p-8"
+      class="relative flex min-h-80 flex-col justify-between overflow-hidden rounded-card border border-gymbro/40 bg-gymbro p-6 text-gymbro-ink transition-transform duration-200 hover:-translate-y-1 sm:p-8"
     >
       <div
         class="pointer-events-none absolute -right-14 -top-20 size-60 rounded-full border border-gymbro-ink/10"
@@ -129,7 +129,7 @@ const location = $derived(profileState.data.location.trim());
     </article>
 
     <article
-      class="flex min-h-[320px] flex-col justify-between rounded-card border border-dashed border-line-strong p-6 sm:p-8"
+      class="flex min-h-80 flex-col justify-between rounded-card border border-dashed border-line-strong p-6 sm:p-8"
     >
       <div class="flex items-center justify-between">
         <span class="eyebrow">Módulo 02</span>
