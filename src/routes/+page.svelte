@@ -29,7 +29,6 @@ const greeting = (() => {
 
 const name = $derived(profileState.data.name.trim());
 const firstName = $derived(name.split(/\s+/)[0] ?? "");
-const headline = $derived(profileState.data.headline.trim());
 const location = $derived(profileState.data.location.trim());
 </script>
 
@@ -37,19 +36,13 @@ const location = $derived(profileState.data.location.trim());
   <title>Core — Tu espacio personal</title>
   <meta
     name="description"
-    content="Core es tu espacio personal local-first: perfil, proyectos y datos que siguen contigo incluso sin conexión."
+    content="Core es tu espacio personal: perfil, proyectos y datos que siguen contigo incluso sin conexión."
   />
 </svelte:head>
 
 <div class="animate-rise">
   <section>
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      <p class="eyebrow">{dateText}</p>
-      <span class="chip chip-positive">
-        <span class="size-1.5 rounded-full bg-positive"></span>
-        Local-first
-      </span>
-    </div>
+    <p class="eyebrow">{dateText}</p>
 
     <h1
       class="mt-8 max-w-3xl font-serif text-[clamp(3rem,8vw,5.75rem)] leading-[0.92] tracking-[-0.03em] text-balance"
@@ -59,56 +52,19 @@ const location = $derived(profileState.data.location.trim());
         <span class="italic text-accent">qué bueno verte</span>.{/if}
     </h1>
 
-    <p class="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-      Tu núcleo personal: identidad, proyectos y datos que siguen contigo
-      incluso sin conexión.
-    </p>
-
     <div class="mt-8 flex flex-wrap items-center gap-3">
       <button type="button" class="btn btn-ink" onclick={openSettings}>
         {name ? "Editar perfil" : "Completar perfil"}
         <Icon name="arrow-up-right" size={15} />
       </button>
-      <a href="#sistema" class="btn btn-ghost">Ver sistema</a>
     </div>
 
-    {#if headline || location}
-      <p class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
-        {#if headline}
-          <span>{headline}</span>
-        {/if}
-        {#if headline && location}
-          <span class="text-line-strong" aria-hidden="true">/</span>
-        {/if}
-        {#if location}
-          <span class="flex items-center gap-1.5">
-            <Icon name="home" size={13} />
-            {location}
-          </span>
-        {/if}
+    {#if location}
+      <p class="mt-8 flex items-center gap-1.5 text-sm text-muted">
+        <Icon name="home" size={13} />
+        {location}
       </p>
     {/if}
-
-    <div
-      class="mt-10 grid grid-cols-2 gap-x-6 gap-y-4 border-y border-line py-4 sm:grid-cols-4"
-    >
-      <div>
-        <p class="eyebrow">Modo</p>
-        <p class="mt-1 text-sm font-medium">Local-first</p>
-      </div>
-      <div>
-        <p class="eyebrow">Sync</p>
-        <p class="mt-1 text-sm font-medium">Automática</p>
-      </div>
-      <div>
-        <p class="eyebrow">Módulos</p>
-        <p class="mt-1 text-sm font-medium">01 en pausa</p>
-      </div>
-      <div>
-        <p class="eyebrow">Versión</p>
-        <p class="mt-1 text-sm font-medium">0.1.0</p>
-      </div>
-    </div>
   </section>
 </div>
 
@@ -120,7 +76,6 @@ const location = $derived(profileState.data.location.trim());
         Un núcleo, varios módulos.
       </h2>
     </div>
-    <span class="chip hidden sm:inline-flex">01 en preparación</span>
   </div>
 
   <div class="mt-6 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
@@ -202,14 +157,6 @@ const location = $derived(profileState.data.location.trim());
         Todo bajo control.
       </h2>
     </div>
-    <button
-      type="button"
-      class="btn btn-ghost hidden sm:inline-flex"
-      onclick={openSettings}
-    >
-      Ajustes
-      <Icon name="arrow-right" size={15} />
-    </button>
   </div>
 
   <div class="mt-6 overflow-hidden rounded-card border border-line bg-surface">
@@ -257,19 +204,10 @@ const location = $derived(profileState.data.location.trim());
     </div>
   </div>
 
-  <button
-    type="button"
-    class="btn btn-ghost mt-3 w-full sm:hidden"
-    onclick={openSettings}
-  >
-    Abrir ajustes
-    <Icon name="arrow-right" size={15} />
-  </button>
 </section>
 
 <footer
   class="mt-14 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-5 text-[11px] text-faint"
 >
   <span>Core · v0.1.0</span>
-  <span class="font-mono uppercase tracking-[0.12em]">Local-first · PWA</span>
 </footer>

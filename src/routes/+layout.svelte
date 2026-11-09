@@ -118,17 +118,6 @@ async function applyUpdate(): Promise<void> {
 
     <div class="mt-auto space-y-3">
       <div class="rounded-card border border-line bg-canvas p-3">
-        <div class="flex items-center gap-2">
-          <span class="size-1.5 rounded-full bg-gymbro"></span>
-          <span class="eyebrow">GymBro</span>
-          <span class="ml-auto font-mono text-[10px] text-faint">01</span>
-        </div>
-        <p class="mt-2 text-xs leading-relaxed text-muted">
-          Entrenamiento conectado al mismo núcleo. En preparación.
-        </p>
-      </div>
-
-      <div class="rounded-card border border-line bg-canvas p-3">
         <SyncIndicator />
       </div>
 
@@ -152,15 +141,8 @@ async function applyUpdate(): Promise<void> {
     <Logo size={30} />
     <div class="flex items-center gap-1">
       <ThemeToggle />
-      <button
-        type="button"
-        class="btn-icon size-9"
-        onclick={openSettings}
-        aria-label="Abrir ajustes"
-      >
-        <Icon name="settings" size={17} />
-      </button>
-    </div>
+        <ThemeToggle />
+      </div>
   </header>
 
   <main class="lg:pl-[252px]">

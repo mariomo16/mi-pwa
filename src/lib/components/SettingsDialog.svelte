@@ -212,18 +212,6 @@ function handleBackdrop(event: MouseEvent): void {
 
             <label class="block">
               <span class="mb-1.5 block text-xs font-medium text-muted">
-                En qué estás
-              </span>
-              <input
-                class="input"
-                bind:value={draft.headline}
-                maxlength={120}
-                placeholder="Diseño, código, ideas"
-              />
-            </label>
-
-            <label class="block">
-              <span class="mb-1.5 block text-xs font-medium text-muted">
                 Ubicación
               </span>
               <input
@@ -373,10 +361,6 @@ function handleBackdrop(event: MouseEvent): void {
       class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-line px-5 py-4 text-[11px] text-faint sm:px-7"
     >
       <span>Core 0.1.0</span>
-      <span class="flex items-center gap-1.5">
-        <Icon name="shield" size={12} />
-        Datos locales primero
-      </span>
     </footer>
   </div>
 </dialog>
