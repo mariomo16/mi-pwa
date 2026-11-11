@@ -32,7 +32,7 @@ async function load() {
 
   [muscleGroups] = await Promise.all([getMuscleGroups()]);
 
-  const workout = await db.gymbro_workouts.get(String(workoutId));
+  const workout = await db.gymbro_workouts.get(`gymbro_workouts:${workoutId}`);
   if (!workout || workout.deletedAt !== null) return;
 
   startedAt = Number(workout.data.started_at);
