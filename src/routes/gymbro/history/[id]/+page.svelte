@@ -128,7 +128,8 @@ const totalVolume = $derived.by(() => {
     </div>
   </header>
 
-  <section class="grid grid-cols-3 gap-2.5">
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
+    <section class="grid grid-cols-3 gap-2.5">
     <div class="card flex flex-col items-center gap-1 p-3.5">
       <span class="text-[10px] font-bold uppercase tracking-widest text-muted">Duración</span>
       <span class="text-lg font-bold">{formatDuration(durationSeconds)}</span>
@@ -183,4 +184,5 @@ const totalVolume = $derived.by(() => {
       </table>
     </section>
   {/each}
+  </div>
 </div>

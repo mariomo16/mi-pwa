@@ -94,7 +94,10 @@ onMount(() => {
       <h1 class="truncate text-2xl font-bold tracking-tight">{routine.name}</h1>
     {/if}
   </header>
-  <div id="routine-builder">
-    <RoutineBuilderForm {groups} {exercises} initial={routine ? { id: routine.id, name: routine.name, days: [] } : null} />
+
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
+    <div id="routine-builder">
+      <RoutineBuilderForm {groups} {exercises} initial={routine ? { id: routine.id, name: routine.name, days: [] } : null} />
+    </div>
   </div>
 </div>

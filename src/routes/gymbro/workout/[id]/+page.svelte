@@ -344,7 +344,7 @@ async function discardWorkout() {
   <title>{title} · GymBro</title>
 </svelte:head>
 
-<div class="flex flex-col gap-4">
+<div class="animate-rise">
   <header class="sticky top-0 z-30 border-b border-line bg-surface/90 px-5 pt-3 pb-3 backdrop-blur">
     <div class="flex items-center gap-2">
       <a href="/gymbro" aria-label="Volver" class="flex h-9 w-9 items-center justify-center rounded-full bg-surface text-muted">
@@ -376,7 +376,8 @@ async function discardWorkout() {
     </div>
   </header>
 
-  {#if error}
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
+    {#if error}
     <p class="rounded-xl border border-danger/20 bg-danger/10 px-4 py-2.5 text-xs text-danger">{error}</p>
   {/if}
 
@@ -484,4 +485,5 @@ async function discardWorkout() {
   </button>
 
   <div class="pb-2"></div>
+  </div>
 </div>

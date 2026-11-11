@@ -89,15 +89,13 @@ async function startWorkout(routineDayId: number | null) {
   const identity = getStoredIdentity();
   if (!identity) return;
 
-  const max = await db.gymbro_workouts.orderBy("id").last();
-  const nextId = (max ? Number(max.id) : 0) + 1;
-  const key = `gymbro_workouts:${nextId}`;
   const now = Date.now();
+  const key = `gymbro_workouts:${now}`;
 
   await db.gymbro_workouts.put({
     key,
     collection: "gymbro_workouts",
-    id: String(nextId),
+    id: String(now),
     data: {
       owner_id: identity.deviceId,
       routine_day_id: routineDayId,
@@ -113,7 +111,7 @@ async function startWorkout(routineDayId: number | null) {
   });
 
   syncEngine.notifyLocalChange();
-  location.href = `/gymbro/workout/${nextId}`;
+  location.href = `/gymbro/workout/${now}`;
 }
 
 async function saveWeight() {
@@ -154,7 +152,8 @@ async function saveWeight() {
     <ThemeToggle />
   </header>
 
-  {#if activeWorkout}
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
+    {#if activeWorkout}
     <a
       href="/gymbro/workout/{activeWorkout.id}"
       class="block rounded-[1.25rem] border border-accent/30 bg-accent-soft p-4"
@@ -317,4 +316,5 @@ async function saveWeight() {
       <Icon name="plus" size={14} /> Crear mi primera rutina
     </a>
   {/if}
+  </div>
 </div>

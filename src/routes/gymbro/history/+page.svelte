@@ -87,6 +87,7 @@ onMount(() => {
     </p>
   </header>
 
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
     {#each workouts as w}
     <section class="flex flex-col gap-2">
       <h2 class="px-1 text-[11px] font-bold uppercase tracking-widest text-muted">
@@ -113,4 +114,5 @@ onMount(() => {
       Cuando termines tu primer entrenamiento aparecerá aquí.
     </div>
   {/if}
+  </div>
 </div>

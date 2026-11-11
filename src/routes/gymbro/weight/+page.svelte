@@ -159,7 +159,8 @@ const chartPoints = $derived.by(() => entries.slice(-60));
     <p class="mt-0.5 text-sm text-muted">Registra a diario y mira tu evolución</p>
   </header>
 
-  <section class="card p-4">
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
+    <section class="card p-4">
     <div class="mb-3 flex items-baseline justify-between">
       <h2 class="text-xs font-bold uppercase tracking-widest text-muted">Hoy</h2>
       <span class="text-[11px] text-muted">{entries.length} registros</span>
@@ -322,4 +323,5 @@ const chartPoints = $derived.by(() => entries.slice(-60));
       </ul>
     </section>
   {/if}
+  </div>
 </div>

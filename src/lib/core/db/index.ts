@@ -36,18 +36,27 @@ class CoreDatabase extends Dexie {
 
   constructor() {
     super("core");
-    this.version(1).stores({
+    this.version(2).stores({
       documents: "key, collection, dirty, serverSeq, updatedAt",
       meta: "key",
-      gymbro_muscle_groups: "key, collection, dirty, serverSeq, updatedAt",
-      gymbro_exercises: "key, collection, dirty, serverSeq, updatedAt",
-      gymbro_routines: "key, collection, dirty, serverSeq, updatedAt",
-      gymbro_routine_days: "key, collection, dirty, serverSeq, updatedAt",
-      gymbro_routine_exercises: "key, collection, dirty, serverSeq, updatedAt",
-      gymbro_workouts: "key, collection, dirty, serverSeq, updatedAt",
-      gymbro_workout_exercises: "key, collection, dirty, serverSeq, updatedAt",
-      gymbro_workout_sets: "key, collection, dirty, serverSeq, updatedAt",
-      gymbro_body_weights: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_muscle_groups:
+        "key, collection, dirty, serverSeq, updatedAt, data.muscle_group_id, data.deletedAt",
+      gymbro_exercises:
+        "key, collection, dirty, serverSeq, updatedAt, data.muscle_group_id, data.deletedAt",
+      gymbro_routines:
+        "key, collection, dirty, serverSeq, updatedAt, data.owner_id, data.active, data.deletedAt",
+      gymbro_routine_days:
+        "key, collection, dirty, serverSeq, updatedAt, data.routine_id, data.weekday, data.deletedAt",
+      gymbro_routine_exercises:
+        "key, collection, dirty, serverSeq, updatedAt, data.routine_day_id, data.exercise_id, data.deletedAt",
+      gymbro_workouts:
+        "key, collection, dirty, serverSeq, updatedAt, data.owner_id, data.ended_at, data.started_at, data.routine_day_id, data.deletedAt",
+      gymbro_workout_exercises:
+        "key, collection, dirty, serverSeq, updatedAt, data.workout_id, data.exercise_id, data.deletedAt",
+      gymbro_workout_sets:
+        "key, collection, dirty, serverSeq, updatedAt, data.workout_exercise_id, data.deletedAt",
+      gymbro_body_weights:
+        "key, collection, dirty, serverSeq, updatedAt, data.owner_id, data.date, data.deletedAt",
     });
   }
 }

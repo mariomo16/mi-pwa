@@ -79,7 +79,8 @@ async function remove(id: number) {
     </div>
   </header>
 
-  <section class="card p-4">
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
+    <section class="card p-4">
     <h2 class="mb-3 text-xs font-bold uppercase tracking-widest text-muted">Nuevo ejercicio</h2>
     <input
       value={name}
@@ -145,4 +146,5 @@ async function remove(id: number) {
       </ul>
     </section>
   {/each}
+  </div>
 </div>

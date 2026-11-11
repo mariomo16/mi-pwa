@@ -103,7 +103,8 @@ const DAYS_SHORT = ["L", "M", "X", "J", "V", "S", "D"];
     </a>
   </header>
 
-  {#if routines.length === 0}
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
+    {#if routines.length === 0}
     <div class="card flex flex-col items-center gap-4 p-8 text-center">
       <p class="text-sm text-muted">
         Todavía no tienes rutinas. Crea una eligiendo días y ejercicios.
@@ -158,4 +159,5 @@ const DAYS_SHORT = ["L", "M", "X", "J", "V", "S", "D"];
       {/each}
     </ul>
   {/if}
+  </div>
 </div>

@@ -31,5 +31,8 @@ onMount(() => {
     </a>
     <h1 class="text-2xl font-bold tracking-tight">Nueva rutina</h1>
   </header>
-  <RoutineBuilderForm {groups} {exercises} />
+
+  <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">
+    <RoutineBuilderForm {groups} {exercises} />
+  </div>
 </div>
