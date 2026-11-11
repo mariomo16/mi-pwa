@@ -159,7 +159,7 @@ async function saveWeight() {
       <p class="text-sm capitalize text-muted">{formatDateLong(new Date().getTime())}</p>
       <h1 class="text-2xl font-bold tracking-tight">Hola</h1>
     </div>
-    <ThemeToggle />
+    <span class="lg:hidden"><ThemeToggle /></span>
   </header>
 
   <div class="mx-auto w-full max-w-md px-5 pt-[max(env(safe-area-inset-top),1.25rem)] pb-32">

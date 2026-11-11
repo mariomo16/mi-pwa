@@ -104,7 +104,6 @@ async function applyUpdate(): Promise<void> {
         >
           <Icon name="home" size={17} />
           Inicio
-          <span class="ml-auto size-1.5 rounded-full bg-accent"></span>
         </a>
       {:else}
         <a
@@ -124,7 +123,6 @@ async function applyUpdate(): Promise<void> {
         >
           <Icon name="dumbbell" size={17} />
           GymBro
-          <span class="ml-auto size-1.5 rounded-full bg-accent"></span>
         </a>
       {:else}
         <a
