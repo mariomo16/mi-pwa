@@ -141,8 +141,7 @@ async function applyUpdate(): Promise<void> {
     <Logo size={30} />
     <div class="flex items-center gap-1">
       <ThemeToggle />
-        <ThemeToggle />
-      </div>
+    </div>
   </header>
 
   <main class="lg:pl-[252px]">
