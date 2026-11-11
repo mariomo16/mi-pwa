@@ -170,7 +170,7 @@ async function saveWeight() {
     </a>
   {/if}
 
-  <section class="flex flex-col gap-3">
+  <section class="flex flex-col gap-3 mt-4">
     <h2 class="text-xs font-bold uppercase tracking-widest text-muted">
       Hoy · {DAYS_LONG[weekday]}
     </h2>
@@ -311,7 +311,7 @@ async function saveWeight() {
   {#if recent.length === 0 && !todaysDays.length}
     <a
       href="/gymbro/routines/new"
-      class="btn btn-ghost mx-auto mt-2 h-12 gap-2 px-6 text-accent"
+      class="btn btn-ghost mx-auto mt-6 h-12 gap-2 px-6 text-accent"
     >
       <Icon name="plus" size={14} /> Crear mi primera rutina
     </a>

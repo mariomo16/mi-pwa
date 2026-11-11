@@ -4,6 +4,7 @@ import Icon from "#lib/components/Icon.svelte";
 import { formatVolume } from "#lib/core/dates.js";
 import { db } from "#lib/core/db/index.js";
 import { formatRepRange } from "#lib/core/format.js";
+import { getExercises, getMuscleGroups } from "#lib/core/gymbro.js";
 import { getStoredIdentity } from "#lib/core/identity.js";
 import { syncEngine } from "#lib/core/sync/engine.js";
 
@@ -11,9 +12,13 @@ let workoutId = $state(0);
 let startedAt = $state(0);
 let title = $state("Entreno libre");
 let exercises = $state<any[]>([]);
+let allAvailableExercises = $state<any[]>([]);
 let collapsed = $state(new Set<number>());
 let error = $state("");
 let pending = $state(false);
+let exerciseSheetOpen = $state(false);
+let searchQuery = $state("");
+let muscleGroups = $state<any[]>([]);
 
 let { params }: { params: { id: string } } = $props();
 
@@ -23,6 +28,8 @@ async function load() {
 
   const identity = getStoredIdentity();
   if (!identity) return;
+
+  [muscleGroups] = await Promise.all([getMuscleGroups()]);
 
   const workout = await db.gymbro_workouts.get(String(workoutId));
   if (!workout || workout.deletedAt !== null) return;
@@ -107,6 +114,9 @@ async function load() {
 
 onMount(() => {
   void load();
+  void getExercises().then((exs) => {
+    allAvailableExercises = exs;
+  });
 });
 
 const totalVolume = $derived.by(() =>
@@ -128,6 +138,76 @@ const totalSets = $derived.by(() =>
     0,
   ),
 );
+
+const usedIds = $derived.by(
+  () => new Set(exercises.map((we: any) => we.exercise_id)),
+);
+
+const q = $derived.by(() => searchQuery.trim().toLowerCase());
+
+const filteredAvailable = $derived.by(() =>
+  allAvailableExercises.filter(
+    (e) => !usedIds.has(e.id) && e.name.toLowerCase().includes(q),
+  ),
+);
+
+const groupedAvailable = $derived.by(() =>
+  muscleGroups
+    .map((g) => ({
+      group: g,
+      items: filteredAvailable.filter((e) => e.muscle_group_id === g.id),
+    }))
+    .filter((g) => g.items.length > 0),
+);
+
+async function addExerciseToWorkout(exerciseId: number) {
+  const identity = getStoredIdentity();
+  if (!identity) return;
+
+  const exercise = await db.gymbro_exercises.get(String(exerciseId));
+  if (!exercise) return;
+
+  const now = Date.now();
+  const maxPos = exercises.reduce((max, we) => Math.max(max, we.position), -1);
+  const weId = now;
+  const key = `gymbro_workout_exercises:${weId}`;
+
+  await db.gymbro_workout_exercises.put({
+    key,
+    collection: "gymbro_workout_exercises",
+    id: String(weId),
+    data: {
+      workout_id: workoutId,
+      exercise_id: exerciseId,
+      position: maxPos + 1,
+    },
+    updatedAt: now,
+    deletedAt: null,
+    serverSeq: 0,
+    dirty: 1,
+    rev: 1,
+  });
+
+  syncEngine.notifyLocalChange();
+
+  const exData = exercise.data as any;
+  exercises = [
+    ...exercises,
+    {
+      id: weId,
+      exercise_id: exerciseId,
+      name: exData.name ?? "Ejercicio",
+      muscle_group_id: Number(exData.muscle_group_id ?? 0),
+      position: maxPos + 1,
+      target_sets: null,
+      target_reps_min: null,
+      target_reps_max: null,
+      rows: [],
+    },
+  ];
+
+  exerciseSheetOpen = false;
+}
 
 function patchRow(
   weId: number,
@@ -478,12 +558,81 @@ async function discardWorkout() {
 
   <button
     type="button"
+    onclick={() => (exerciseSheetOpen = true)}
     class="btn btn-ghost h-12 gap-2"
   >
     <Icon name="plus" size={14} />
     Añadir ejercicio
   </button>
 
+  {#if exerciseSheetOpen}
+    <div
+      class="fixed inset-0 z-50 flex flex-col justify-end"
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        aria-label="Cerrar"
+        onclick={() => (exerciseSheetOpen = false)}
+        class="absolute inset-0 bg-black/70 backdrop-blur-sm"
+      />
+      <div class="sheet relative mx-auto flex max-h-[82dvh] w-full max-w-md flex-col rounded-t-[1.75rem] border border-line bg-surface">
+        <div class="flex items-center justify-between px-5 pt-5 pb-3">
+          <h3 class="text-lg font-bold tracking-tight">Elegir ejercicio</h3>
+          <button
+            type="button"
+            onclick={() => (exerciseSheetOpen = false)}
+            aria-label="Cerrar"
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-raised text-muted"
+          >
+            <Icon name="x" size={14} />
+          </button>
+        </div>
+
+        <div class="px-5 pb-3">
+          <div class="relative">
+            <input
+              bind:value={searchQuery}
+              placeholder="Buscar…"
+              autoCapitalize="none"
+              class="input pl-10"
+            />
+          </div>
+        </div>
+
+        <div class="min-h-0 flex-1 overflow-y-auto px-5 pb-6">
+          {#if groupedAvailable.length === 0}
+            <p class="py-8 text-center text-sm text-muted">Sin resultados</p>
+          {:else}
+            {#each groupedAvailable as { group, items }}
+              <div class="mb-4">
+                <p class="mb-1.5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-muted">
+                  <span class="size-1.5 shrink-0 rounded-full bg-accent"></span>
+                  {group.name}
+                </p>
+                <ul class="overflow-hidden rounded-2xl border border-line">
+                  {#each items as e}
+                    <li>
+                      <button
+                        type="button"
+                        onclick={() => addExerciseToWorkout(e.id)}
+                        class="flex h-12 w-full items-center gap-3 border-b border-line px-4 text-left last:border-b-0 bg-surface active:bg-raised"
+                      >
+                        <span class="size-1.5 shrink-0 rounded-full bg-accent"></span>
+                        <span class="flex-1 truncate text-sm">{e.name}</span>
+                      </button>
+                    </li>
+                  {/each}
+                </ul>
+              </div>
+            {/each}
+          {/if}
+        </div>
+      </div>
+    </div>
+  {/if}
+
   <div class="pb-2"></div>
-  </div>
+</div>
 </div>

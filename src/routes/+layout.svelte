@@ -18,6 +18,7 @@ import type { LayoutProps } from "./$types";
 let { children }: LayoutProps = $props();
 
 let updateAvailable = $state(false);
+let currentPath = $state(window.location.pathname);
 
 onMount(() => {
   initTheme();
@@ -54,6 +55,7 @@ onMount(() => {
       });
 
     void afterNavigate(async () => {
+      currentPath = window.location.pathname;
       const registration = await navigator.serviceWorker.getRegistration();
       await registration?.update();
     });
@@ -96,23 +98,45 @@ async function applyUpdate(): Promise<void> {
     </div>
 
     <nav class="mt-9 space-y-1" aria-label="Principal">
-      <a
-        href="/"
-        class="flex items-center gap-3 rounded-xl bg-raised px-3 py-2.5 text-sm font-medium text-ink"
-        aria-current="page"
-      >
-        <Icon name="home" size={17} />
-        Inicio
-        <span class="ml-auto size-1.5 rounded-full bg-accent"></span>
-      </a>
+      {#if currentPath === "/"}
+        <a
+          href="/"
+          class="flex items-center gap-3 rounded-xl bg-raised px-3 py-2.5 text-sm font-medium text-ink"
+          aria-current="page"
+        >
+          <Icon name="home" size={17} />
+          Inicio
+          <span class="ml-auto size-1.5 rounded-full bg-accent"></span>
+        </a>
+      {:else}
+        <a
+          href="/"
+          class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted opacity-70 hover:bg-raised"
+        >
+          <Icon name="home" size={17} />
+          Inicio
+        </a>
+      {/if}
 
-      <a
-        href="/gymbro"
-        class="flex items-center gap-3 rounded-xl bg-raised px-3 py-2.5 text-sm font-medium text-ink"
-      >
-        <Icon name="dumbbell" size={17} />
-        GymBro
-      </a>
+      {#if currentPath.startsWith("/gymbro")}
+        <a
+          href="/gymbro"
+          class="flex items-center gap-3 rounded-xl bg-raised px-3 py-2.5 text-sm font-medium text-ink"
+          aria-current="page"
+        >
+          <Icon name="dumbbell" size={17} />
+          GymBro
+          <span class="ml-auto size-1.5 rounded-full bg-accent"></span>
+        </a>
+      {:else}
+        <a
+          href="/gymbro"
+          class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted opacity-70 hover:bg-raised"
+        >
+          <Icon name="dumbbell" size={17} />
+          GymBro
+        </a>
+      {/if}
     </nav>
 
     <div class="mt-auto space-y-3">
