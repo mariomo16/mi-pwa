@@ -383,13 +383,26 @@ export async function getRecentWorkouts(
         }
       }
 
+      const startedAt = Number(row.data.started_at);
+      const endedAt = Number(row.data.ended_at);
+      let durationSeconds = row.data.duration_seconds
+        ? Number(row.data.duration_seconds)
+        : null;
+
+      // If duration_seconds is corrupt, calculate from started_at and ended_at
+      if (
+        (!durationSeconds || durationSeconds <= 0 || durationSeconds > 86400) &&
+        startedAt > 0 &&
+        endedAt > startedAt
+      ) {
+        durationSeconds = Math.round((endedAt - startedAt) / 1000);
+      }
+
       return {
         id,
-        started_at: Number(row.data.started_at),
-        ended_at: Number(row.data.ended_at),
-        duration_seconds: row.data.duration_seconds
-          ? Number(row.data.duration_seconds)
-          : null,
+        started_at: startedAt,
+        ended_at: endedAt,
+        duration_seconds: durationSeconds,
         volume,
         sets: setsForWe.length,
         exercises_count: weRows.length,

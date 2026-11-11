@@ -23,7 +23,7 @@ async function load() {
   workoutId = Number(params.id);
   if (!Number.isInteger(workoutId)) return;
 
-  const workout = await db.gymbro_workouts.get(String(workoutId));
+  const workout = await db.gymbro_workouts.get(`gymbro_workouts:${workoutId}`);
   if (!workout || workout.deletedAt !== null) return;
 
   startedAt = Number(workout.data.started_at);
@@ -31,6 +31,16 @@ async function load() {
   durationSeconds = workout.data.duration_seconds
     ? Number(workout.data.duration_seconds)
     : null;
+
+  // If duration_seconds is corrupt, calculate from started_at and ended_at
+  if (
+    (!durationSeconds || durationSeconds <= 0 || durationSeconds > 86400) &&
+    startedAt > 0 &&
+    endedAt &&
+    endedAt > startedAt
+  ) {
+    durationSeconds = Math.round((endedAt - startedAt) / 1000);
+  }
   routineDayId = workout.data.routine_day_id
     ? Number(workout.data.routine_day_id)
     : null;
