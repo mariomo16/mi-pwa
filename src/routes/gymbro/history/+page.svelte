@@ -24,6 +24,8 @@ async function load() {
   const summaries = await Promise.all(
     rows.map(async (row) => {
       const id = Number(row.id);
+      const startedAt = Number(row.data.started_at);
+      const endedAt = row.data.ended_at ? Number(row.data.ended_at) : null;
       const allSets = await db.gymbro_workout_sets.toArray();
       const sets = allSets.filter((s) => s.deletedAt === null);
       const weRows = await db.gymbro_workout_exercises
@@ -52,12 +54,23 @@ async function load() {
         }
       }
 
+      let durationSeconds = row.data.duration_seconds
+        ? Number(row.data.duration_seconds)
+        : null;
+      if (
+        (!durationSeconds || durationSeconds <= 0 || durationSeconds > 86400) &&
+        startedAt > 0 &&
+        endedAt &&
+        endedAt > startedAt
+      ) {
+        durationSeconds = Math.round((endedAt - startedAt) / 1000);
+      }
+
       return {
         id,
-        started_at: Number(row.data.started_at),
-        duration_seconds: row.data.duration_seconds
-          ? Number(row.data.duration_seconds)
-          : null,
+        started_at: startedAt,
+        ended_at: endedAt,
+        duration_seconds: durationSeconds,
         title,
         volume,
         sets: setsForWe.length,
@@ -66,7 +79,7 @@ async function load() {
   );
 
   workouts = summaries
-    .sort((a: any, b: any) => b.ended_at - a.ended_at)
+    .sort((a: any, b: any) => (b.ended_at ?? b.started_at) - (a.ended_at ?? a.started_at))
     .slice(0, 100);
 }
 
@@ -91,7 +104,7 @@ onMount(() => {
     {#each workouts as w}
     <section class="flex flex-col gap-2">
       <h2 class="px-1 text-[11px] font-bold uppercase tracking-widest text-muted">
-        {new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" }).format(new Date(w.started_at)).charAt(0).toUpperCase()}
+        {w.started_at > 0 ? new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" }).format(new Date(w.started_at)).charAt(0).toUpperCase() : "Sin fecha"}
       </h2>
       <a href="/gymbro/history/{w.id}" class="card flex items-center gap-3 p-4 active:bg-raised">
         <div class="min-w-0 flex-1">
