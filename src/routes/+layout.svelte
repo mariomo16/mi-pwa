@@ -106,14 +106,13 @@ async function applyUpdate(): Promise<void> {
         <span class="ml-auto size-1.5 rounded-full bg-accent"></span>
       </a>
 
-      <div
-        class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted opacity-70"
-        aria-disabled="true"
+      <a
+        href="/gymbro"
+        class="flex items-center gap-3 rounded-xl bg-raised px-3 py-2.5 text-sm font-medium text-ink"
       >
-        <Icon name="grid" size={17} />
-        Proyectos
-        <span class="chip ml-auto">Pronto</span>
-      </div>
+        <Icon name="dumbbell" size={17} />
+        GymBro
+      </a>
     </nav>
 
     <div class="mt-auto space-y-3">

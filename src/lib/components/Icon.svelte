@@ -4,6 +4,8 @@ type IconName =
   | "arrow-right"
   | "arrow-up-right"
   | "check"
+  | "chevron-down"
+  | "chevron-left"
   | "chevron-right"
   | "clock"
   | "cloud"
@@ -11,17 +13,20 @@ type IconName =
   | "device"
   | "download"
   | "dumbbell"
+  | "flame"
   | "grid"
   | "home"
   | "lock"
   | "moon"
   | "offline"
+  | "play"
   | "plus"
   | "refresh"
   | "settings"
   | "shield"
   | "sparkles"
   | "sun"
+  | "trash"
   | "upload"
   | "user"
   | "x";
@@ -88,8 +93,19 @@ let {
   {:else if name === "arrow-right"}
     <path d="M4 12h16" />
     <path d="m14 6 6 6-6 6" />
-  {:else if name === "chevron-right"}
-    <path d="m9 6 6 6-6 6" />
+  {:else if name === "chevron-left"}
+    <path d="m15 6-6 6 6 6" />
+  {:else if name === "chevron-down"}
+    <path d="m6 9 6 6 6-6" />
+  {:else if name === "flame"}
+    <path d="M12 3s5.5 4.2 5.5 9a5.5 5.5 0 0 1-11 0c0-1.8.8-3.4 1.8-4.7.3 1 .9 1.9 1.9 2.2C10.5 7.6 12 3 12 3Z" />
+  {:else if name === "play"}
+    <path d="M8.5 5.8c0-.9 1-1.5 1.8-1L18.4 9c.8.5.8 1.6 0 2l-8.1 5.2c-.8.5-1.8-.1-1.8-1Z" fill="currentColor" />
+  {:else if name === "trash"}
+    <path d="M4.5 7h15" />
+    <path d="M9.5 7V5.5A1.5 1.5 0 0 1 11 4h2a1.5 1.5 0 0 1 1.5 1.5V7" />
+    <path d="M6.5 7 7.4 19a2 2 0 0 0 2 1.9h5.2a2 2 0 0 0 2-1.9L17.5 7" />
+    <path d="M10 11v6M14 11v6" />
   {:else if name === "check"}
     <path d="m4 12 5 5L20 6" />
   {:else if name === "offline"}

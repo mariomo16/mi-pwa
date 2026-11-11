@@ -24,12 +24,30 @@ export function documentKey(collection: string, id: string): string {
 class CoreDatabase extends Dexie {
   documents!: Table<LocalDocument, string>;
   meta!: Table<MetaRecord, string>;
+  gymbro_muscle_groups!: Table<LocalDocument, string>;
+  gymbro_exercises!: Table<LocalDocument, string>;
+  gymbro_routines!: Table<LocalDocument, string>;
+  gymbro_routine_days!: Table<LocalDocument, string>;
+  gymbro_routine_exercises!: Table<LocalDocument, string>;
+  gymbro_workouts!: Table<LocalDocument, string>;
+  gymbro_workout_exercises!: Table<LocalDocument, string>;
+  gymbro_workout_sets!: Table<LocalDocument, string>;
+  gymbro_body_weights!: Table<LocalDocument, string>;
 
   constructor() {
     super("core");
     this.version(1).stores({
       documents: "key, collection, dirty, serverSeq, updatedAt",
       meta: "key",
+      gymbro_muscle_groups: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_exercises: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_routines: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_routine_days: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_routine_exercises: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_workouts: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_workout_exercises: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_workout_sets: "key, collection, dirty, serverSeq, updatedAt",
+      gymbro_body_weights: "key, collection, dirty, serverSeq, updatedAt",
     });
   }
 }

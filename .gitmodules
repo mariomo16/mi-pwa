@@ -1,0 +1,3 @@
+[submodule "src/lib/gymbro"]
+	path = src/lib/gymbro
+	url = https://github.com/mariomo16/gymbro.git
