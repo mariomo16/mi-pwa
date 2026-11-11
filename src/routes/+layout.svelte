@@ -27,7 +27,11 @@ onMount(() => {
 
   let cancelled = false;
 
-  if (!dev && "serviceWorker" in navigator) {
+  void afterNavigate(() => {
+    currentPath = window.location.pathname;
+  });
+
+  if ("serviceWorker" in navigator && !dev) {
     void navigator.serviceWorker.ready
       .then((registration) => {
         if (cancelled) return;
@@ -53,12 +57,6 @@ onMount(() => {
       .catch(() => {
         // The app still works without a service worker.
       });
-
-    void afterNavigate(async () => {
-      currentPath = window.location.pathname;
-      const registration = await navigator.serviceWorker.getRegistration();
-      await registration?.update();
-    });
   }
 
   return () => {

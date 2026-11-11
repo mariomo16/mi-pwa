@@ -3,6 +3,7 @@ import { onMount } from "svelte";
 import Icon from "#lib/components/Icon.svelte";
 import ThemeToggle from "#lib/components/ThemeToggle.svelte";
 import {
+  formatClock,
   formatDateLong,
   formatDuration,
   formatVolume,
@@ -40,6 +41,7 @@ let recent = $state<any[]>([]);
 let todayWeight = $state<number | null>(null);
 let doneDayIds = $state<number[]>([]);
 let weightInput = $state("");
+let timerNow = $state<number | null>(null);
 
 const doneDays = new Set<number>();
 
@@ -74,6 +76,14 @@ async function load() {
 
 onMount(() => {
   void load();
+
+  let interval: ReturnType<typeof setInterval>;
+  const tick = () => {
+    timerNow = Date.now();
+  };
+  tick();
+  interval = setInterval(tick, 1000);
+  return () => clearInterval(interval);
 });
 
 function shortName(fullName: string): string {
@@ -161,7 +171,9 @@ async function saveWeight() {
       <div class="flex items-center justify-between">
         <div>
           <p class="text-xs font-bold uppercase tracking-wider text-accent">Entrenamiento en curso</p>
-          <span class="mt-1 font-mono tabular-nums text-2xl font-bold">--:--</span>
+          <span class="mt-1 font-mono tabular-nums text-2xl font-bold">
+            {timerNow != null ? formatClock(timerNow - activeWorkout.started_at) : "--:--"}
+          </span>
         </div>
         <span class="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-gymbro-ink">
           <Icon name="chevron-right" size={15} />

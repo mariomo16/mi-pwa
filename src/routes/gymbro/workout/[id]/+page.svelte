@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import Icon from "#lib/components/Icon.svelte";
-import { formatVolume } from "#lib/core/dates.js";
+import { formatClock, formatVolume } from "#lib/core/dates.js";
 import { db } from "#lib/core/db/index.js";
 import { formatRepRange } from "#lib/core/format.js";
 import { getExercises, getMuscleGroups } from "#lib/core/gymbro.js";
@@ -19,6 +19,7 @@ let pending = $state(false);
 let exerciseSheetOpen = $state(false);
 let searchQuery = $state("");
 let muscleGroups = $state<any[]>([]);
+let timerNow = $state<number | null>(null);
 
 let { params }: { params: { id: string } } = $props();
 
@@ -117,6 +118,14 @@ onMount(() => {
   void getExercises().then((exs) => {
     allAvailableExercises = exs;
   });
+
+  let interval: ReturnType<typeof setInterval>;
+  const tick = () => {
+    timerNow = Date.now();
+  };
+  tick();
+  interval = setInterval(tick, 1000);
+  return () => clearInterval(interval);
 });
 
 const totalVolume = $derived.by(() =>
@@ -444,7 +453,9 @@ async function discardWorkout() {
       </button>
     </div>
     <div class="mt-3 flex flex-col items-center">
-      <span class="font-mono tabular-nums text-[44px] leading-none font-bold tracking-tight">--:--</span>
+      <span class="font-mono tabular-nums text-[44px] leading-none font-bold tracking-tight">
+        {timerNow != null ? formatClock(timerNow - startedAt) : "--:--"}
+      </span>
       <button
         type="button"
         disabled={pending}
